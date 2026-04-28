@@ -1,0 +1,131 @@
+.ach-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,0.07);
+  background: transparent;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.ach-unlocked {
+  border-color: rgba(83,160,253,0.3);
+  background: rgba(83,160,253,0.05);
+
+  &:hover { border-color: rgba(83,160,253,0.55); background: rgba(83,160,253,0.08); }
+}
+
+.ach-claimed {
+  border-color: rgba(0,229,212,0.2);
+  background: rgba(0,229,212,0.03);
+}
+
+.ach-locked {
+  border-color: rgba(255,255,255,0.05);
+  opacity: 0.6;
+}
+
+// Tier border glow
+.ach-tier-legendary { border-color: rgba(255,209,102,0.25); }
+.ach-tier-epic      { border-color: rgba(160,111,255,0.25); }
+.ach-tier-rare.ach-unlocked { border-color: rgba(83,160,253,0.35); }
+
+@keyframes achFlash {
+  0%   { box-shadow: 0 0 0 0 rgba(83,160,253,0.6); }
+  50%  { box-shadow: 0 0 24px 6px rgba(83,160,253,0.3); }
+  100% { box-shadow: 0 0 0 0 rgba(83,160,253,0); }
+}
+.ach-flash { animation: achFlash 1.1s ease; }
+
+.ach-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+  margin-top: 2px;
+  line-height: 1;
+}
+
+.ach-body {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ach-top-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ach-title {
+  font-family: var(--font-main);
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ach-tier {
+  font-family: var(--font-main);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.ach-desc {
+  font-family: var(--font-main);
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.5;
+}
+
+.ach-bottom-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.ach-xp {
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 600;
+  color: #53A0FD;
+}
+
+.ach-claim-btn {
+  background: linear-gradient(135deg, #53A0FD, #00E5D4);
+  border: none;
+  border-radius: 7px;
+  color: #0B1620;
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.15s;
+  letter-spacing: 0.04em;
+
+  &:hover { opacity: 0.85; transform: translateY(-1px); }
+  &:active { transform: scale(0.97); }
+}
+
+.ach-claimed-badge {
+  font-family: var(--font-main);
+  font-size: 11px;
+  color: rgba(0,229,212,0.7);
+  letter-spacing: 0.06em;
+}
+
+.theme-wish {
+  .ach-unlocked { border-color: rgba(91,111,255,0.3); background: rgba(91,111,255,0.05); }
+  .ach-xp { color: #7b8fff; }
+  .ach-claim-btn { background: linear-gradient(135deg, #5b6fff, #7b8fff); color: #0b0f1e; }
+}

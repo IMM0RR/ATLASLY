@@ -1,0 +1,119 @@
+.level-banner {
+  width: 100%;
+  max-width: 900px;
+  background: rgba(83,160,253,0.05);
+  border: 1px solid rgba(83,160,253,0.15);
+  border-radius: 18px;
+  padding: 24px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.level-top {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.level-badge {
+  width: 68px;
+  height: 68px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(83,160,253,0.25), rgba(0,229,212,0.15));
+  border: 1px solid rgba(83,160,253,0.3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  gap: 0;
+
+  .level-num {
+    font-family: var(--font-main);
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #53A0FD, #00E5D4);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    line-height: 1;
+  }
+
+  .level-lbl {
+    font-family: var(--font-main);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.4;
+  }
+}
+
+.level-info {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.level-title {
+  font-family: var(--font-main);
+  font-size: 22px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.9);
+}
+
+.level-xp-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.level-xp {
+  font-family: var(--font-main);
+  font-size: 13px;
+  font-weight: 600;
+  color: #53A0FD;
+}
+
+.level-next {
+  font-family: var(--font-main);
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+}
+
+.level-bar-wrap {
+  width: 100%;
+  height: 6px;
+  background: rgba(83,160,253,0.1);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.level-bar {
+  height: 100%;
+  background: linear-gradient(to right, #53A0FD, #00E5D4);
+  border-radius: 3px;
+  transition: width 1s ease;
+  min-width: 6px;
+}
+
+.level-maxed {
+  font-family: var(--font-main);
+  font-size: 12px;
+  color: rgba(255,255,255,0.35);
+  letter-spacing: 0.05em;
+}
+
+.theme-wish .level-banner {
+  background: rgba(91,111,255,0.05);
+  border-color: rgba(91,111,255,0.15);
+
+  .level-badge {
+    background: linear-gradient(135deg, rgba(91,111,255,0.25), rgba(123,143,255,0.15));
+    border-color: rgba(91,111,255,0.3);
+    .level-num { background: linear-gradient(135deg, #5b6fff, #7b8fff); background-clip: text; -webkit-background-clip: text; }
+  }
+  .level-xp { color: #7b8fff; }
+  .level-bar { background: linear-gradient(to right, #5b6fff, #7b8fff); }
+  .level-bar-wrap { background: rgba(91,111,255,0.1); }
+}

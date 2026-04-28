@@ -1,0 +1,56 @@
+.achievements-page {
+  position: fixed;
+  top: 70px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  overflow: hidden;
+  animation: fadeProfile 0.4s ease;
+}
+
+.achievements-scroll {
+  height: 100%;
+  overflow-y: auto;
+  padding: 30px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 36px;
+
+  &::-webkit-scrollbar { width: 4px; }
+  &::-webkit-scrollbar-track { background: transparent; }
+  &::-webkit-scrollbar-thumb { background: rgba(83,160,253,0.2); border-radius: 2px; }
+}
+
+.ach-section {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ach-section-title {
+  font-family: var(--font-main);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+
+  &.ready   { color: #53A0FD; }
+  &.claimed { color: rgba(0,229,212,0.6); }
+  &.locked  { color: rgba(255,255,255,0.2); }
+}
+
+.ach-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+}
+
+@media (max-width: 768px) {
+  .achievements-scroll { padding: 20px 16px 50px; }
+  .ach-grid { grid-template-columns: 1fr; }
+}

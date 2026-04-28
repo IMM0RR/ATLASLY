@@ -4,6 +4,7 @@ import ModeSwitch from '../components/ModeSwitch'
 import CountrySearch from '../components/CountrySearch'
 import Tooltip from '../components/Tooltip'
 import ProfilePage from './ProfilePage'
+import AchievementsPage from './AchievementsPage'
 import '../styles/_map.scss'
 import {
     getSelectedCountries,
@@ -26,15 +27,14 @@ function HomePage() {
     const [svgLoaded, setSvgLoaded] = useState(false)
     const [page, setPage] = useState('map')
 
-    // Zoom & pan state
     const [scale, setScale] = useState(1)
     const [translate, setTranslate] = useState({ x: 0, y: 0 })
     const isPanning = useRef(false)
     const panStart = useRef({ x: 0, y: 0 })
     const translateRef = useRef({ x: 0, y: 0 })
     const scaleRef = useRef(1)
+    const didPan = useRef(false)
 
-    // Notification
     const [notification, setNotification] = useState(null)
     const notifTimer = useRef(null)
 
@@ -42,7 +42,6 @@ function HomePage() {
     const mapWrapperRef = useRef(null)
     const svgLoadedRef = useRef(false)
 
-    // Load SVG
     useEffect(() => {
         if (svgLoadedRef.current) return
         fetch(worldSvgUrl)
@@ -76,7 +75,6 @@ function HomePage() {
         applySelections(selectedCountries)
     }, [selectedCountries, applySelections])
 
-    // ===== ZOOM helpers =====
     const applyTransform = useCallback((newScale, newTx, newTy) => {
         scaleRef.current = newScale
         translateRef.current = { x: newTx, y: newTy }
@@ -88,82 +86,63 @@ function HomePage() {
         applyTransform(1, 0, 0)
     }, [applyTransform])
 
-    // Wheel zoom
     useEffect(() => {
         const wrapper = mapWrapperRef.current
         if (!wrapper) return
-
         const onWheel = (e) => {
             e.preventDefault()
             const delta = e.deltaY < 0 ? 1.12 : 1 / 1.12
             const rect = wrapper.getBoundingClientRect()
             const mouseX = e.clientX - rect.left
             const mouseY = e.clientY - rect.top
-
             const currentScale = scaleRef.current
             const { x: tx, y: ty } = translateRef.current
-
             let newScale = currentScale * delta
-            if (newScale < MIN_SCALE) {
-                resetTransform()
-                return
-            }
+            if (newScale < MIN_SCALE) { resetTransform(); return }
             if (newScale > MAX_SCALE) newScale = MAX_SCALE
-
-            // Zoom toward mouse position
             const newTx = mouseX - (mouseX - tx) * (newScale / currentScale)
             const newTy = mouseY - (mouseY - ty) * (newScale / currentScale)
-
             applyTransform(newScale, newTx, newTy)
         }
-
         wrapper.addEventListener('wheel', onWheel, { passive: false })
         return () => wrapper.removeEventListener('wheel', onWheel)
     }, [applyTransform, resetTransform])
 
-    // Pan
     const handleMouseDown = (e) => {
         if (scaleRef.current <= MIN_SCALE) return
         if (e.button !== 0) return
         isPanning.current = true
+        didPan.current = false
         panStart.current = {
             x: e.clientX - translateRef.current.x,
             y: e.clientY - translateRef.current.y,
         }
-        e.currentTarget.style.cursor = 'grabbing'
     }
 
-    const handleMouseMove = (e) => {
+    const handleMouseMoveMap = (e) => {
         if (isPanning.current) {
+            didPan.current = true
             const newTx = e.clientX - panStart.current.x
             const newTy = e.clientY - panStart.current.y
             translateRef.current = { x: newTx, y: newTy }
             setTranslate({ x: newTx, y: newTy })
-
-            // Update tooltip position even while panning
             return
         }
         const path = e.target.closest('path')
         if (path) setTooltip(t => ({ ...t, x: e.clientX, y: e.clientY }))
     }
 
-    const handleMouseUp = (e) => {
-        isPanning.current = false
-        if (mapWrapperRef.current) mapWrapperRef.current.style.cursor = ''
-    }
+    const handleMouseUp = () => { isPanning.current = false }
 
-    // ===== NOTIFICATION =====
     const showNotification = (name, adding) => {
         if (notifTimer.current) clearTimeout(notifTimer.current)
         setNotification({ name, adding })
         notifTimer.current = setTimeout(() => setNotification(null), 2200)
     }
 
-    // ===== COUNTRY TOGGLE =====
     const handleModeChange = (newMode) => {
         setMode(newMode)
-        const countries = getSelectedCountries(newMode)
-        setSelectedCountries(new Set(countries))
+        setSelectedCountries(new Set(getSelectedCountries(newMode)))
     }
 
     const handleToggleCountry = useCallback((code, name) => {
@@ -182,27 +161,12 @@ function HomePage() {
         })
     }, [mode])
 
-    // Map click — ignore if was panning
-    const didPan = useRef(false)
-    const handleMouseDownMap = (e) => {
-        didPan.current = false
-        handleMouseDown(e)
-    }
-    const handleMouseMoveMap = (e) => {
-        if (isPanning.current) didPan.current = true
-        handleMouseMove(e)
-    }
-
     const handleSvgClick = (e) => {
         if (didPan.current) return
         const path = e.target.closest('path')
         if (!path) return
         const id = path.getAttribute('id')
-        const name = (
-            path.getAttribute('name') ||
-            path.getAttribute('data-name') ||
-            path.classList[0]
-        )?.trim()
+        const name = (path.getAttribute('name') || path.getAttribute('data-name') || path.classList[0])?.trim()
         const code = id || name
         if (!code) return
         handleToggleCountry(code, name || code)
@@ -212,21 +176,14 @@ function HomePage() {
         if (isPanning.current) return
         const path = e.target.closest('path')
         if (!path) return
-        const name =
-            path.getAttribute('name') ||
-            path.getAttribute('data-name') ||
-            path.classList[0] ||
-            path.getAttribute('id') ||
-            'Unknown'
+        const name = path.getAttribute('name') || path.getAttribute('data-name') || path.classList[0] || path.getAttribute('id') || 'Unknown'
         setTooltip({ text: name, x: e.clientX, y: e.clientY, visible: true })
     }
 
     const handleMouseOutMap = (e) => {
-        const path = e.target.closest('path')
-        if (path) setTooltip(t => ({ ...t, visible: false }))
+        if (e.target.closest('path')) setTooltip(t => ({ ...t, visible: false }))
     }
 
-    // Stats
     const beenCount = getSelectedCountries('been').size
     const wishCount = getSelectedCountries('wish').size
     const percent = ((beenCount / TOTAL_COUNTRIES) * 100).toFixed(1)
@@ -235,9 +192,7 @@ function HomePage() {
         <div className={`theme-${mode}`} style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
             <Navbar page={page} onNavigate={setPage} />
 
-            {page === 'map' && (
-                <ModeSwitch mode={mode} onModeChange={handleModeChange} />
-            )}
+            {page === 'map' && <ModeSwitch mode={mode} onModeChange={handleModeChange} />}
 
             {page === 'map' && (
                 <>
@@ -248,14 +203,8 @@ function HomePage() {
                         onToggleCountry={handleToggleCountry}
                         svgLoaded={svgLoaded}
                     />
-                    <Tooltip
-                        text={tooltip.text}
-                        x={tooltip.x}
-                        y={tooltip.y}
-                        visible={tooltip.visible}
-                    />
+                    <Tooltip text={tooltip.text} x={tooltip.x} y={tooltip.y} visible={tooltip.visible} />
 
-                    {/* Notification */}
                     {notification && (
                         <div className={`country-notification ${notification.adding ? 'notif-add' : 'notif-remove'}`}>
                             <span className="notif-icon">{notification.adding ? '✓' : '✕'}</span>
@@ -264,19 +213,14 @@ function HomePage() {
                         </div>
                     )}
 
-                    {/* Zoom slider */}
                     <div className="zoom-controls">
                         <button className="zoom-btn" onClick={() => {
                             const ns = Math.min(scaleRef.current * 1.3, MAX_SCALE)
                             applyTransform(ns, translateRef.current.x, translateRef.current.y)
                         }}>+</button>
                         <input
-                            type="range"
-                            className="zoom-slider"
-                            min={MIN_SCALE}
-                            max={MAX_SCALE}
-                            step={0.05}
-                            value={scale}
+                            type="range" className="zoom-slider"
+                            min={MIN_SCALE} max={MAX_SCALE} step={0.05} value={scale}
                             onChange={e => {
                                 const ns = parseFloat(e.target.value)
                                 if (ns <= MIN_SCALE) { resetTransform(); return }
@@ -294,21 +238,18 @@ function HomePage() {
             )}
 
             {page === 'profile' && (
-                <ProfilePage
-                    beenCount={beenCount}
-                    wishCount={wishCount}
-                    percent={percent}
-                    total={TOTAL_COUNTRIES}
-                    mode={mode}
-                />
+                <ProfilePage beenCount={beenCount} wishCount={wishCount} percent={percent} total={TOTAL_COUNTRIES} mode={mode} />
             )}
 
-            {/* Map always mounted */}
+            {page === 'achievements' && (
+                <AchievementsPage beenCount={beenCount} mode={mode} />
+            )}
+
             <div
                 className="world-map"
                 ref={mapWrapperRef}
                 style={{ display: page === 'map' ? 'flex' : 'none' }}
-                onMouseDown={handleMouseDownMap}
+                onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMoveMap}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
@@ -319,7 +260,6 @@ function HomePage() {
                     style={{
                         transform: `translate(${translate.x}px, ${translate.y}px) scale(${scale})`,
                         transformOrigin: '0 0',
-                        transition: isPanning.current ? 'none' : 'transform 0.08s ease',
                         willChange: 'transform',
                     }}
                     onClick={handleSvgClick}

@@ -1,15 +1,18 @@
 import React, { useState, useEffect } from 'react'
 import '../styles/_profile.scss'
+import CountryFacts from '../components/CountryFacts'
 import { getSelectedCountries, getCountryNames, getRatings, setRating } from '../utils/cookieStorage'
 
-const STAR_COLORS = {
-    0: 'transparent',
-    1: 'rgba(40, 169, 255, 0.1)',
-    2: 'rgba(40, 169, 255, 0.3)',
-    3: 'rgba(40, 169, 255, 0.5)',
-    4: 'rgba(64, 180, 255, 0.7)',
-    5: 'rgba(64, 200, 255, 0.9)',
-};
+// Цвет заполненной звезды зависит от оценки — чем выше, тем ярче
+const FILLED_STAR_STYLES = {
+    1: { color: 'rgba(83,160,253,0.35)',  textShadow: 'none' },
+    2: { color: 'rgba(83,160,253,0.55)',  textShadow: 'none' },
+    3: { color: 'rgba(83,160,253,0.80)',  textShadow: '0 0 6px rgba(83,160,253,0.4)' },
+    4: { color: '#53A0FD',               textShadow: '0 0 8px rgba(83,160,253,0.6)' },
+    5: { color: '#7b8fff',               textShadow: '0 0 12px rgba(123,143,255,0.8)' },
+}
+
+const EMPTY_STYLE = { color: 'rgba(255,255,255,0.15)', textShadow: 'none' }
 
 function StarRating({ code, value, onChange }) {
     const [hover, setHover] = useState(0)
@@ -17,53 +20,52 @@ function StarRating({ code, value, onChange }) {
 
     return (
         <div className="star-row">
-            {[1, 2, 3, 4, 5].map(n => (
-                <span
-                    key={n}
-                    className="star"
-                    style={{ color: n <= display ? STAR_COLORS[n] : 'rgba(255,255,255,0.12)' }}
-                    onMouseEnter={() => setHover(n)}
-                    onMouseLeave={() => setHover(0)}
-                    onClick={e => { e.stopPropagation(); onChange(n === value ? 0 : n) }}
-                >★</span>
-            ))}
+            {[1,2,3,4,5].map(n => {
+                const filled = n <= display
+                const style  = filled ? FILLED_STAR_STYLES[display] : EMPTY_STYLE
+                return (
+                    <span
+                        key={n}
+                        className="star"
+                        style={style}
+                        onMouseEnter={() => setHover(n)}
+                        onMouseLeave={() => setHover(0)}
+                        onClick={e => { e.stopPropagation(); onChange(n === value ? 0 : n) }}
+                    >★</span>
+                )
+            })}
         </div>
     )
 }
 
-function ProfilePage({ beenCount, wishCount, percent, total, mode }) {
+function ProfilePage({ beenCount, wishCount, percent, total }) {
     const [ratings, setRatings] = useState(getRatings)
-    const [sort, setSort] = useState('alpha-asc') // 'alpha-asc' | 'alpha-desc' | 'rating-asc' | 'rating-desc'
+    const [sort, setSort] = useState('alpha-asc')
 
-    // Re-read when switching to profile
-    useEffect(() => {
-        setRatings(getRatings())
-    }, [])
+    useEffect(() => { setRatings(getRatings()) }, [])
 
     const handleRate = (code, value) => {
         setRating(code, value)
         setRatings(prev => ({ ...prev, [code]: value }))
     }
 
-    // Countries list
-    const beenSet = getSelectedCountries('been')
-    const names = getCountryNames()
+    const beenSet  = getSelectedCountries('been')
+    const names    = getCountryNames()
     const countries = [...beenSet].map(code => ({
         code,
-        name: names[code] || code,
+        name:   names[code] || code,
         rating: ratings[code] || 0,
     }))
 
     const sorted = [...countries].sort((a, b) => {
-        if (sort === 'alpha-asc') return a.name.localeCompare(b.name)
-        if (sort === 'alpha-desc') return b.name.localeCompare(a.name)
-        if (sort === 'rating-asc') return a.rating - b.rating
+        if (sort === 'alpha-asc')   return a.name.localeCompare(b.name)
+        if (sort === 'alpha-desc')  return b.name.localeCompare(a.name)
+        if (sort === 'rating-asc')  return a.rating - b.rating
         if (sort === 'rating-desc') return b.rating - a.rating
         return 0
     })
 
-    // Circle progress — thin ring, large radius, text inside fits well
-    const R = 90
+    const R    = 90
     const circ = 2 * Math.PI * R
     const offset = circ * (1 - beenCount / total)
 
@@ -71,7 +73,7 @@ function ProfilePage({ beenCount, wishCount, percent, total, mode }) {
         <div className="profile-page">
             <div className="profile-scroll">
 
-                {/* ── Top stats row ── */}
+                {/* ── Статистика ── */}
                 <div className="profile-content">
                     <div className="stat-card stat-been">
                         <div className="stat-number">{beenCount}</div>
@@ -90,10 +92,8 @@ function ProfilePage({ beenCount, wishCount, percent, total, mode }) {
                                 <circle cx="100" cy="100" r={R} fill="none"
                                         stroke="rgba(83,160,253,0.08)" strokeWidth="6" />
                                 <circle cx="100" cy="100" r={R} fill="none"
-                                        stroke="url(#ringGrad)" strokeWidth="6"
-                                        strokeLinecap="round"
-                                        strokeDasharray={circ}
-                                        strokeDashoffset={offset}
+                                        stroke="url(#ringGrad)" strokeWidth="6" strokeLinecap="round"
+                                        strokeDasharray={circ} strokeDashoffset={offset}
                                         transform="rotate(-90 100 100)"
                                         style={{ transition: 'stroke-dashoffset 1.2s ease' }}
                                 />
@@ -112,16 +112,19 @@ function ProfilePage({ beenCount, wishCount, percent, total, mode }) {
                     </div>
                 </div>
 
-                {/* ── Been countries list ── */}
+                {/* ── Факты ── */}
+                <CountryFacts />
+
+                {/* ── Список стран ── */}
                 {countries.length > 0 && (
                     <div className="countries-section">
                         <div className="countries-header">
                             <span className="countries-title">visited countries</span>
                             <div className="sort-buttons">
-                                <button className={sort === 'alpha-asc' ? 'active' : ''} onClick={() => setSort('alpha-asc')}>A→Z</button>
-                                <button className={sort === 'alpha-desc' ? 'active' : ''} onClick={() => setSort('alpha-desc')}>Z→A</button>
+                                <button className={sort === 'alpha-asc'   ? 'active' : ''} onClick={() => setSort('alpha-asc')}>A→Z</button>
+                                <button className={sort === 'alpha-desc'  ? 'active' : ''} onClick={() => setSort('alpha-desc')}>Z→A</button>
                                 <button className={sort === 'rating-desc' ? 'active' : ''} onClick={() => setSort('rating-desc')}>★↑</button>
-                                <button className={sort === 'rating-asc' ? 'active' : ''} onClick={() => setSort('rating-asc')}>★↓</button>
+                                <button className={sort === 'rating-asc'  ? 'active' : ''} onClick={() => setSort('rating-asc')}>★↓</button>
                             </div>
                         </div>
                         <div className="countries-grid">
@@ -129,16 +132,9 @@ function ProfilePage({ beenCount, wishCount, percent, total, mode }) {
                                 <div
                                     key={code}
                                     className="country-card"
-                                    style={{
-                                        background: rating > 0 ? STAR_COLORS[rating] : 'transparent',
-                                    }}
                                 >
                                     <span className="country-card-name">{name}</span>
-                                    <StarRating
-                                        code={code}
-                                        value={rating}
-                                        onChange={val => handleRate(code, val)}
-                                    />
+                                    <StarRating code={code} value={rating} onChange={val => handleRate(code, val)} />
                                 </div>
                             ))}
                         </div>

@@ -1,4 +1,3 @@
-// ===== NAVBAR =====
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -8,9 +7,10 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 10;
+  z-index: 20;
+  height: 70px;                          // фиксированная высота — не выходит за шапку
   background: transparent;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
   backdrop-filter: blur(6px);
 
   .logo {
@@ -25,57 +25,75 @@
 
   .menu {
     display: flex;
-    gap: 30px;
-    font-family: var(--font-main);
-    font-size: 16px;
+    gap: 6px;
+    align-items: center;
   }
 
-  .nav-btn {
-    background: rgba(83, 160, 253, 0.12);
-    border: 1px solid rgba(83, 160, 253, 0.3);
-    color: #53A0FD;
-    font-family: var(--font-main);
-    font-size: 16px;
-    font-weight: 500;
-    padding: 8px 22px;
-    border-radius: 8px;
+  .nav-icon-btn {
+    width: 38px;
+    height: 38px;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 10px;
+    // Нет явного color — будет наследоваться, задаём только нужные состояния
+    color: rgba(255,255,255,0.25);
     cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 0.02em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s, border-color 0.25s, color 0.25s, box-shadow 0.25s;
+    padding: 0;
+    outline: none;
+    flex-shrink: 0;
 
-    &:hover {
-      background: rgba(83, 160, 253, 0.25);
-      border-color: #53A0FD;
-      box-shadow: 0 0 14px rgba(83, 160, 253, 0.3);
-    }
-
-    &.active {
-      background: rgba(83, 160, 253, 0.2);
-      border-color: #53A0FD;
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;   // цвет иконки = color кнопки
+      transition: stroke 0.25s;
     }
   }
 }
 
-// Wish theme nav btn
-.theme-wish .navbar .nav-btn {
-  background: rgba(83, 130, 255, 0.12);
-  border-color: rgba(83, 130, 255, 0.3);
-  color: #7EB4FF;
-
+// ===== BEEN THEME =====
+.theme-been .navbar .nav-icon-btn {
   &:hover {
-    background: rgba(83, 130, 255, 0.22);
-    border-color: #7EB4FF;
-    box-shadow: 0 0 14px rgba(83, 130, 255, 0.3);
+    background: rgba(83,160,253,0.1);
+    border-color: rgba(83,160,253,0.4);
+    color: #53A0FD;
+  }
+
+  &.active {
+    background: rgba(83,160,253,0.15);
+    border-color: #53A0FD;
+    color: #53A0FD;
+    box-shadow: 0 0 10px rgba(83,160,253,0.2);
   }
 }
 
-// Responsive
+// ===== WISH THEME =====
+.theme-wish .navbar .nav-icon-btn {
+  &:hover {
+    background: rgba(91,111,255,0.1);
+    border-color: rgba(91,111,255,0.4);
+    color: #7b8fff;
+  }
+
+  &.active {
+    background: rgba(91,111,255,0.15);
+    border-color: #5b6fff;
+    color: #7b8fff;
+    box-shadow: 0 0 10px rgba(91,111,255,0.2);
+  }
+}
+
+// ===== RESPONSIVE =====
 @media (max-width: 768px) {
   .navbar {
     padding: 12px 20px;
+    height: 60px;
     .logo { font-size: 24px; }
-    .menu { gap: 15px; }
-    .nav-btn { font-size: 14px; padding: 7px 16px; }
+    .nav-icon-btn { width: 34px; height: 34px; }
   }
 }
 
@@ -83,6 +101,5 @@
   .navbar {
     padding: 10px 15px;
     .logo { font-size: 20px; }
-    .nav-btn { font-size: 13px; padding: 6px 12px; }
   }
 }
