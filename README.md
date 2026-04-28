@@ -1,39 +1,4 @@
-# ATLASLY — React + SCSS версия
-
-## Структура проекта
-
-```
-atlasly/
-├── public/
-│   └── atlasly.png          # favicon
-├── src/
-│   ├── assets/
-│   │   ├── world.svg        # SVG карта мира
-│   │   └── settings.png     # иконка настроек
-│   ├── components/
-│   │   ├── Navbar.jsx       # навигационная панель
-│   │   ├── ModeSwitch.jsx   # переключатель been/wish
-│   │   ├── CountrySearch.jsx# поиск стран
-│   │   ├── WorldMap.jsx     # карта (вспомогательный)
-│   │   └── Tooltip.jsx      # тултип при наведении
-│   ├── pages/
-│   │   └── HomePage.jsx     # главная страница
-│   ├── styles/
-│   │   ├── global.scss      # глобальные стили и переменные
-│   │   ├── _navbar.scss     # стили navbar
-│   │   ├── _map.scss        # стили карты и тем
-│   │   ├── _modeswitch.scss # стили переключателя
-│   │   ├── _search.scss     # стили поиска
-│   │   └── _tooltip.scss    # стили тултипа
-│   ├── utils/
-│   │   └── cookieStorage.js # сохранение стран в cookies (вместо БД)
-│   ├── App.jsx
-│   └── main.jsx
-├── index.html
-├── package.json
-└── vite.config.js
-```
-
+# ATLASLY
 ## Установка и запуск
 
 ```bash
@@ -47,17 +12,6 @@ npm install
 npm run dev
 ```
 
-## Что изменилось по сравнению с оригиналом
-
-- ❌ Убраны: вход, регистрация, профиль, настройки
-- ❌ Убрана: зависимость от бекенда (Node.js + БД)
-- ✅ Добавлено: сохранение выбранных стран через **cookies** (js-cookie)
-- ✅ Переписано на **React 18 + SCSS**
-- ✅ Дизайн полностью сохранён (цвета, шрифты, анимации)
-- ✅ Темы been (синяя) и wish (зелёная) работают
-- ✅ Поиск стран с чекбоксами работает
-- ✅ Tooltip при наведении работает
-- ✅ Клик по стране — выделение/снятие
 
 ## Как работает сохранение (cookies)
 
