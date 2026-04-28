@@ -105,3 +105,113 @@ path {
     height: 100vh;
   }
 }
+
+
+
+// ===== ZOOM CONTROLS =====
+.zoom-controls {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+
+  .zoom-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(18, 36, 48, 0.9);
+    border: 1px solid rgba(83, 160, 253, 0.25);
+    color: #53A0FD;
+    font-size: 20px;
+    line-height: 1;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    font-family: var(--font-main);
+
+    &:hover {
+      background: rgba(83, 160, 253, 0.15);
+      border-color: #53A0FD;
+    }
+  }
+
+  .zoom-slider {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    appearance: slider-vertical;
+    -webkit-appearance: slider-vertical;
+    width: 6px;
+    height: 100px;
+    cursor: pointer;
+    accent-color: #53A0FD;
+    background: rgba(83, 160, 253, 0.15);
+    border-radius: 3px;
+    outline: none;
+  }
+}
+
+.theme-wish .zoom-controls {
+  .zoom-btn {
+    border-color: rgba(91, 111, 255, 0.3);
+    color: #7b8fff;
+    &:hover { background: rgba(91, 111, 255, 0.15); border-color: #7b8fff; }
+  }
+  .zoom-slider { accent-color: #5b6fff; }
+}
+
+// ===== NOTIFICATION =====
+.country-notification {
+  position: fixed;
+  top: 82px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  font-family: var(--font-main);
+  pointer-events: none;
+  animation: notifSlide 0.3s ease, notifFade 0.4s ease 1.8s forwards;
+
+  &.notif-add {
+    .notif-icon { color: #28a9ff; }
+  }
+
+  &.notif-remove {
+    .notif-icon { color: #ff6060; }
+  }
+
+  .notif-icon {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .notif-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.9);
+  }
+
+  .notif-sub {
+    font-size: 11px;
+    opacity: 0.4;
+    letter-spacing: 0.06em;
+  }
+}
+
+@keyframes notifSlide {
+  from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes notifFade {
+  to { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+}
