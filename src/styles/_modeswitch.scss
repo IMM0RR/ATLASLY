@@ -1,0 +1,48 @@
+// ===== MODE SWITCH =====
+.mode-switch {
+  position: fixed;
+  top: 90px;
+  left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 5;
+
+  .mode-option {
+    padding: 10px 50px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: var(--font-main);
+    font-weight: 500;
+    font-size: 14px;
+    transition: 0.3s;
+    color: #fff;
+    background: #122430;
+
+    &:hover {
+      background: #53A0FD33;
+      transform: translateY(-2px);
+    }
+
+    &.active-been {
+      background: #2885ff;
+    }
+
+    &.active-wish {
+      background: #5b6fff;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .mode-switch {
+    top: 70px;
+    left: 10px;
+
+    .mode-option {
+      padding: 8px 30px;
+      font-size: 12px;
+    }
+  }
+}

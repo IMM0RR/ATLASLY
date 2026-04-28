@@ -1,0 +1,69 @@
+// ===== VARIABLES =====
+:root {
+  --font-main: 'Lexend Zetta', sans-serif;
+
+  // Been theme colors
+  --been-bg: #0B1620;
+  --been-bg-secondary: #122430;
+  --been-stroke: #1E3F50;
+  --been-accent: #53A0FD;
+  --been-accent-2: #00E5D4;
+  --been-selected: #28a9ff98;
+  --been-hover: #4f9eff50;
+  --been-glow: #069bff;
+
+  // Wish theme colors
+  --wish-bg: #001d0c;
+  --wish-bg-secondary: #012b1a;
+  --wish-stroke: #02502d;
+  --wish-accent: #0bff99;
+  --wish-selected: #0bff9965;
+  --wish-hover: #0bff9950;
+  --wish-glow: #0bff99;
+
+  // Text
+  --text-primary: #E8F7FF;
+}
+
+// ===== RESET =====
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+body {
+  font-family: var(--font-main);
+  font-optical-sizing: auto;
+  font-weight: 400;
+  background: var(--been-bg);
+  color: var(--text-primary);
+  position: relative;
+  transition: background-color 0.7s ease;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120vw;
+    height: 120vh;
+    background: radial-gradient(
+      circle,
+      rgba(0, 225, 255, 0.02),
+      rgba(0, 183, 255, 0.02) 35%,
+      rgba(0, 80, 150, 0.01) 55%,
+      transparent 80%
+    );
+    filter: blur(60px);
+    pointer-events: none;
+    z-index: 1;
+  }
+}

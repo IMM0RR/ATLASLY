@@ -1,0 +1,112 @@
+// ===== COUNTRY SEARCH =====
+.country-search {
+  position: fixed;
+  top: 90px;
+  right: 60px;
+  width: 240px;
+  z-index: 10;
+  font-family: var(--font-main);
+
+  #search-input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    font-family: var(--font-main);
+    background: #122430;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    &::placeholder {
+      color: rgba(255, 255, 255, 0.3);
+    }
+  }
+
+  #search-results {
+    margin-top: 6px;
+    background: rgba(15, 25, 35, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+
+    .search-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+
+      &:hover {
+        background: rgba(80, 170, 255, 0.08);
+      }
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .checkbox {
+        cursor: pointer;
+        accent-color: #53A0FD;
+      }
+    }
+  }
+}
+
+// Theme: been
+.theme-been .country-search {
+  #search-input {
+    background: #122430;
+    color: #53A0FD;
+    border: 1px solid rgba(83, 160, 253, 0.3);
+
+    &::placeholder {
+      color: rgba(83, 160, 253, 0.4);
+    }
+  }
+
+  #search-results {
+    background: rgba(13, 25, 40, 0.92);
+  }
+}
+
+// Theme: wish
+.theme-wish .country-search {
+  #search-input {
+    background: #111830;
+    color: #7EB4FF;
+    border: 1px solid rgba(91, 111, 255, 0.35);
+
+    &::placeholder {
+      color: rgba(91, 111, 255, 0.45);
+    }
+  }
+
+  #search-results {
+    background: rgba(10, 14, 35, 0.95);
+
+    .search-item .checkbox {
+      accent-color: #5b6fff;
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .country-search {
+    top: 70px;
+    right: 10px;
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .country-search {
+    width: 180px;
+    top: 65px;
+  }
+}

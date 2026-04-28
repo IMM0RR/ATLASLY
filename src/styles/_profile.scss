@@ -1,0 +1,151 @@
+// ===== PROFILE PAGE =====
+.profile-page {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4;
+  animation: fadeProfile 0.4s ease;
+}
+
+@keyframes fadeProfile {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.profile-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 60px;
+  padding: 40px;
+}
+
+// ===== STAT CARDS =====
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+
+  .stat-number {
+    font-size: clamp(80px, 10vw, 140px);
+    font-weight: 900;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    font-family: var(--font-main);
+  }
+
+  .stat-label {
+    font-size: clamp(11px, 1.2vw, 14px);
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    font-family: var(--font-main);
+  }
+}
+
+.stat-been .stat-number {
+  background: linear-gradient(135deg, #53A0FD, #00E5D4);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.stat-wish .stat-number {
+  background: linear-gradient(135deg, #7B8FFF, #53A0FD);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+// ===== CIRCULAR PROGRESS =====
+.stat-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.progress-ring {
+  position: relative;
+  width: clamp(160px, 18vw, 220px);
+  height: clamp(160px, 18vw, 220px);
+
+  svg {
+    width: 100%;
+    height: 100%;
+    // Override global svg sizing
+    width: clamp(160px, 18vw, 220px) !important;
+    height: clamp(160px, 18vw, 220px) !important;
+  }
+
+  .ring-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    pointer-events: none;
+
+    .ring-percent {
+      font-size: clamp(28px, 3.5vw, 44px);
+      font-weight: 900;
+      font-family: var(--font-main);
+      background: linear-gradient(135deg, #53A0FD, #00E5D4);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      line-height: 1;
+    }
+
+    .ring-sub {
+      font-size: clamp(9px, 0.9vw, 11px);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      opacity: 0.4;
+      font-family: var(--font-main);
+    }
+  }
+}
+
+.total-note {
+  font-size: 12px;
+  opacity: 0.3;
+  letter-spacing: 0.08em;
+  font-family: var(--font-main);
+}
+
+// ===== WISH THEME OVERRIDES =====
+.theme-wish {
+  .stat-wish .stat-number {
+    background: linear-gradient(135deg, #7B8FFF, #5b6fff);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+  }
+
+  .progress-ring svg circle:first-child {
+    stroke: rgba(91, 111, 255, 0.1);
+  }
+}
+
+// ===== RESPONSIVE =====
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .stat-card .stat-number {
+    font-size: clamp(60px, 18vw, 100px);
+  }
+}

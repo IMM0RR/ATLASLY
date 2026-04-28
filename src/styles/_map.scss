@@ -1,0 +1,107 @@
+// ===== MAP =====
+.world-map {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin-top: 10px;
+  width: max-content;
+  height: max-content;
+  min-height: 30em;
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInMap 1s;
+}
+
+@keyframes fadeInMap {
+  from { opacity: 0.3; }
+  to   { opacity: 1; }
+}
+
+svg {
+  width: 90vw;
+  height: 110vh;
+}
+
+// ===== PATH STYLES =====
+path {
+  fill: #122430;
+  stroke: #1E3F50;
+  stroke-width: 0.5px;
+  transition: 300ms;
+  cursor: pointer;
+
+  &:hover {
+    fill: #53A0FD50;
+    filter: drop-shadow(0 0 4px #53A0FD);
+  }
+
+  &.selected {
+    fill: #2885ff50;
+    filter: drop-shadow(0 0 6px #069bff);
+  }
+
+  &.hoverHighlight {
+    fill: #53A0FD50 !important;
+    filter: drop-shadow(0 0 5px #53A0FD);
+  }
+}
+
+// ===== THEME: BEEN =====
+.theme-been {
+  background: #0B1620;
+
+  path {
+    fill: #122430;
+    stroke: #1E3F50;
+
+    &:hover {
+      fill: #4f9eff50;
+      filter: drop-shadow(0 0 4px #53A0FD);
+    }
+
+    &.selected {
+      fill: #28a9ff98;
+      filter: drop-shadow(0 0 6px #069bff);
+    }
+
+    &.hoverHighlight {
+      fill: #53A0FD50 !important;
+      filter: drop-shadow(0 0 5px #53A0FD);
+    }
+  }
+}
+
+// ===== THEME: WISH =====
+.theme-wish {
+  background: #0b0f1e;
+
+  path {
+    fill: #111830;
+    stroke: #1d2d55;
+
+    &:hover {
+      fill: #5b6fff50;
+      filter: drop-shadow(0 0 4px #5b6fff);
+    }
+
+    &.selected {
+      fill: #6a7fff65;
+      filter: drop-shadow(0 0 6px #7b8fff);
+    }
+
+    &.hoverHighlight {
+      fill: #5b6fff50 !important;
+      filter: drop-shadow(0 0 5px #5b6fff);
+    }
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  svg {
+    width: 95vw;
+    height: 100vh;
+  }
+}
