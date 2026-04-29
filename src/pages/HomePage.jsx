@@ -7,6 +7,7 @@ import ProfilePage from './ProfilePage'
 import AchievementsPage from './AchievementsPage'
 import '../styles/_map.scss'
 import PremiumPage from './PremiumPage'
+import IntroTour from '../components/IntroTour'
 import {
     getSelectedCountries,
     saveCountry,
@@ -191,6 +192,7 @@ function HomePage() {
 
     return (
         <div className={`theme-${mode}`} style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
+            <IntroTour onNavigate={setPage} />
             <Navbar page={page} onNavigate={setPage} mode={mode} />
 
             {page === 'map' && <ModeSwitch mode={mode} onModeChange={handleModeChange} />}

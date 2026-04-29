@@ -32,24 +32,44 @@ function Navbar({ page, onNavigate, mode }) {
         <header className="navbar">
             <div className="logo">ATLASLY</div>
             <nav className="menu">
+
                 <button
                     className={`premium-btn ${mode === 'wish' ? 'premium-wish' : ''}`}
                     onClick={() => onNavigate('premium')}
+                    data-tour="premium"
                 >
                     <span className="premium-btn-text">Premium</span>
                 </button>
 
                 <div className="nav-divider" />
 
-                <button className={`nav-icon-btn ${page === 'map' ? 'active' : ''}`} onClick={() => onNavigate('map')} title="Map">
+                <button
+                    className={`nav-icon-btn ${page === 'map' ? 'active' : ''}`}
+                    onClick={() => onNavigate('map')}
+                    title="Map"
+                    data-tour="nav-map"
+                >
                     <MapIcon />
                 </button>
-                <button className={`nav-icon-btn ${page === 'profile' ? 'active' : ''}`} onClick={() => onNavigate('profile')} title="Profile">
+
+                <button
+                    className={`nav-icon-btn ${page === 'profile' ? 'active' : ''}`}
+                    onClick={() => onNavigate('profile')}
+                    title="Profile"
+                    data-tour="nav-profile"
+                >
                     <ProfileIcon />
                 </button>
-                <button className={`nav-icon-btn ${page === 'achievements' ? 'active' : ''}`} onClick={() => onNavigate('achievements')} title="Achievements">
+
+                <button
+                    className={`nav-icon-btn ${page === 'achievements' ? 'active' : ''}`}
+                    onClick={() => onNavigate('achievements')}
+                    title="Achievements"
+                    data-tour="nav-achievements"
+                >
                     <TrophyIcon />
                 </button>
+
             </nav>
         </header>
     )

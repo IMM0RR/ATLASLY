@@ -1,0 +1,138 @@
+// ===== OVERLAY =====
+.tour-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 900;
+  pointer-events: all;
+}
+
+// ===== SPOTLIGHT =====
+.tour-spotlight {
+  position: fixed;
+  z-index: 901;
+  pointer-events: none;
+  border-radius: 12px;
+  border: 1.5px solid rgba(83, 160, 253, 0.5);
+  box-shadow:
+          0 0 0 9999px rgba(5, 12, 24, 0.75),
+          0 0 24px rgba(83, 160, 253, 0.18);
+  animation: spotIn 0.3s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes spotIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+// ===== TOOLTIP =====
+.tour-tooltip {
+  position: fixed;
+  z-index: 960;
+  width: 300px;
+  background: #090f1c;
+  border: 1px solid rgba(83, 160, 253, 0.18);
+  border-radius: 18px;
+  padding: 20px 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: all;
+  // Запрет на растягивание
+  box-sizing: border-box;
+  animation: tipIn 0.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 60px;
+    background: radial-gradient(ellipse, rgba(83,160,253,0.08), transparent 70%);
+    pointer-events: none;
+    border-radius: 50%;
+  }
+}
+
+@keyframes tipIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.tour-tooltip__step {
+  font-family: var(--font-main);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(83, 160, 253, 0.4);
+}
+
+.tour-tooltip__title {
+  font-family: var(--font-main);
+  font-size: 16px;
+  font-weight: 800;
+  line-height: 1.2;
+  background: linear-gradient(to right, #E8F7FF, rgba(232,247,255,0.65));
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.tour-tooltip__text {
+  font-family: var(--font-main);
+  font-size: 13px;
+  line-height: 1.7;
+  color: rgba(232, 247, 255, 0.44);
+  margin: 0;
+}
+
+.tour-tooltip__nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+  gap: 10px;
+}
+
+.tour-tooltip__skip {
+  font-family: var(--font-main);
+  font-size: 11px;
+  color: rgba(83, 160, 253, 0.25);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: color 0.2s;
+
+  &:hover { color: rgba(83, 160, 253, 0.5); }
+}
+
+.tour-tooltip__btn {
+  margin-left: auto;
+  background: linear-gradient(90deg, #53A0FD, #5b6fff);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+  font-family: var(--font-main);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 18px;
+  cursor: pointer;
+  white-space: nowrap;
+  letter-spacing: 0.03em;
+  transition: opacity 0.2s, transform 0.15s;
+
+  &:hover {
+    opacity: 0.85;
+    transform: translateY(-1px);
+  }
+}
+
+// ===== RESPONSIVE =====
+@media (max-width: 600px) {
+  .tour-tooltip {
+    width: calc(100vw - 32px);
+    max-width: 300px;
+  }
+}
