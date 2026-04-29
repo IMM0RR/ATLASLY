@@ -6,6 +6,7 @@ import Tooltip from '../components/Tooltip'
 import ProfilePage from './ProfilePage'
 import AchievementsPage from './AchievementsPage'
 import '../styles/_map.scss'
+import PremiumPage from './PremiumPage'
 import {
     getSelectedCountries,
     saveCountry,
@@ -190,7 +191,7 @@ function HomePage() {
 
     return (
         <div className={`theme-${mode}`} style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            <Navbar page={page} onNavigate={setPage} />
+            <Navbar page={page} onNavigate={setPage} mode={mode} />
 
             {page === 'map' && <ModeSwitch mode={mode} onModeChange={handleModeChange} />}
 
@@ -243,6 +244,10 @@ function HomePage() {
 
             {page === 'achievements' && (
                 <AchievementsPage beenCount={beenCount} mode={mode} />
+            )}
+
+            {page === 'premium' && (
+                <PremiumPage mode={mode} onNavigate={setPage} />
             )}
 
             <div

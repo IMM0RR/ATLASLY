@@ -8,7 +8,7 @@
   left: 0;
   right: 0;
   z-index: 20;
-  height: 70px;                          // фиксированная высота — не выходит за шапку
+  height: 70px;
   background: transparent;
   border-bottom: 1px solid rgba(255,255,255,0.05);
   backdrop-filter: blur(6px);
@@ -16,7 +16,7 @@
   .logo {
     font-weight: 900;
     font-size: 34px;
-    background: linear-gradient(to right, #53A0FD, #00E5D4);
+    background: linear-gradient(to right, #53A0FD, #6a7fff65);
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
@@ -29,13 +29,19 @@
     align-items: center;
   }
 
+  .nav-divider {
+    width: 1px;
+    height: 24px;
+    background: rgba(255,255,255,0.08);
+    margin: 0 10px;
+  }
+
   .nav-icon-btn {
     width: 38px;
     height: 38px;
     background: transparent;
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 10px;
-    // Нет явного color — будет наследоваться, задаём только нужные состояния
     color: rgba(255,255,255,0.25);
     cursor: pointer;
     display: flex;
@@ -49,10 +55,58 @@
     svg {
       width: 18px;
       height: 18px;
-      stroke: currentColor;   // цвет иконки = color кнопки
+      stroke: currentColor;
       transition: stroke 0.25s;
     }
   }
+
+
+  .premium-btn {
+    background: none;
+    border: none;
+    padding: 4px 6px;
+    cursor: pointer;
+    outline: none;
+
+    .premium-btn-text {
+      font-family: var(--font-main);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+
+
+      background: linear-gradient(90deg, #53A0FD, #6a7fff65, #53A0FD);
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: shiftGrad 2.4s linear infinite;
+      white-space: nowrap;
+      transition: opacity 0.2s;
+    }
+
+    &:hover .premium-btn-text { opacity: 0.75; }
+
+    &.premium-wish .premium-btn-text {
+      background: linear-gradient(90deg, #5b6fff, #a78bff, #5b6fff);
+      background-size: 200% 100%;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      animation: shiftGradWish 2.4s linear infinite;
+    }
+  }
+}
+
+
+@keyframes shiftGrad {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
+}
+
+@keyframes shiftGradWish {
+  0%   { background-position: 0% 0%; }
+  100% { background-position: 200% 0%; }
 }
 
 // ===== BEEN THEME =====
@@ -62,7 +116,6 @@
     border-color: rgba(83,160,253,0.4);
     color: #53A0FD;
   }
-
   &.active {
     background: rgba(83,160,253,0.15);
     border-color: #53A0FD;
@@ -78,7 +131,6 @@
     border-color: rgba(91,111,255,0.4);
     color: #7b8fff;
   }
-
   &.active {
     background: rgba(91,111,255,0.15);
     border-color: #5b6fff;
@@ -87,13 +139,13 @@
   }
 }
 
-// ===== RESPONSIVE =====
 @media (max-width: 768px) {
   .navbar {
     padding: 12px 20px;
     height: 60px;
     .logo { font-size: 24px; }
     .nav-icon-btn { width: 34px; height: 34px; }
+    .premium-btn .premium-btn-text { font-size: 12px; }
   }
 }
 
@@ -101,5 +153,6 @@
   .navbar {
     padding: 10px 15px;
     .logo { font-size: 20px; }
+    .nav-divider { display: none; }
   }
 }

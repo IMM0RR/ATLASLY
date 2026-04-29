@@ -27,30 +27,27 @@ const TrophyIcon = () => (
     </svg>
 )
 
-function Navbar({ page, onNavigate }) {
+function Navbar({ page, onNavigate, mode }) {
     return (
         <header className="navbar">
             <div className="logo">ATLASLY</div>
             <nav className="menu">
                 <button
-                    className={`nav-icon-btn ${page === 'map' ? 'active' : ''}`}
-                    onClick={() => onNavigate('map')}
-                    title="Map"
+                    className={`premium-btn ${mode === 'wish' ? 'premium-wish' : ''}`}
+                    onClick={() => onNavigate('premium')}
                 >
+                    <span className="premium-btn-text">Premium</span>
+                </button>
+
+                <div className="nav-divider" />
+
+                <button className={`nav-icon-btn ${page === 'map' ? 'active' : ''}`} onClick={() => onNavigate('map')} title="Map">
                     <MapIcon />
                 </button>
-                <button
-                    className={`nav-icon-btn ${page === 'profile' ? 'active' : ''}`}
-                    onClick={() => onNavigate('profile')}
-                    title="Profile"
-                >
+                <button className={`nav-icon-btn ${page === 'profile' ? 'active' : ''}`} onClick={() => onNavigate('profile')} title="Profile">
                     <ProfileIcon />
                 </button>
-                <button
-                    className={`nav-icon-btn ${page === 'achievements' ? 'active' : ''}`}
-                    onClick={() => onNavigate('achievements')}
-                    title="Achievements"
-                >
+                <button className={`nav-icon-btn ${page === 'achievements' ? 'active' : ''}`} onClick={() => onNavigate('achievements')} title="Achievements">
                     <TrophyIcon />
                 </button>
             </nav>
