@@ -12,6 +12,7 @@
   justify-content: center;
   align-items: center;
   animation: fadeInMap 1s;
+  z-index: 1;
 }
 
 @keyframes fadeInMap {
@@ -50,7 +51,19 @@ path {
 
 // ===== THEME: BEEN =====
 .theme-been {
-  background: #0B1620;
+  background: #040c12;
+
+  // Два радиальных пятна — синее сверху-слева, бирюзовое снизу-справа
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(ellipse 70% 45% at 50% 0%, rgba(13, 58, 92, 0.55) 0%, transparent 100%),
+        radial-gradient(ellipse 55% 50% at 10% 90%, rgba(0, 28, 61, 0.4) 0%, transparent 100%);
+  }
 
   path {
     fill: #122430;
@@ -75,7 +88,18 @@ path {
 
 // ===== THEME: WISH =====
 .theme-wish {
-  background: #0b0f1e;
+  background: #030810;
+
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+            radial-gradient(ellipse 70% 45% at 50% 0%, rgba(30, 40, 110, 0.75) 0%, transparent 100%),
+            radial-gradient(ellipse 55% 50% at 10% 90%, rgba(20, 25, 80, 0.50) 0%, transparent 100%);
+  }
 
   path {
     fill: #111830;
