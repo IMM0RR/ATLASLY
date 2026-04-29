@@ -3,21 +3,21 @@ import React, { useState, useEffect, useRef } from 'react'
 import '../styles/_facts.scss'
 
 const FACTS = [
-    { emoji: '🌍', text: 'Россия — самая большая страна в мире, она охватывает 11 часовых поясов.' },
-    { emoji: '🏝️', text: 'В Индонезии более 17 000 островов — это самый большой архипелаг в мире.' },
-    { emoji: '🗺️', text: 'Ватикан — самая маленькая страна в мире, всего 0,44 км².' },
-    { emoji: '🌊', text: 'В Канаде больше всего озёр в мире — более 60% всех озёр планеты.' },
-    { emoji: '🏔️', text: 'В Непале находятся 8 из 10 самых высоких горных вершин мира.' },
-    { emoji: '🌵', text: 'Пустыня Сахара в Африке примерно такого же размера, как США.' },
-    { emoji: '🐧', text: 'Антарктида — единственный континент без постоянного населения.' },
-    { emoji: '🌐', text: 'В мире 195 стран, признанных Организацией Объединённых Наций.' },
-    { emoji: '🏙️', text: 'Токио — самый густонаселённый мегаполис, более 37 миллионов человек.' },
-    { emoji: '🌿', text: 'Бразилия содержит около 60% тропических лесов Амазонии.' },
-    { emoji: '💧', text: 'Река Нил в Африке считается самой длинной рекой в мире — 6 650 км.' },
-    { emoji: '🧭', text: 'Франция — самая посещаемая страна, около 90 миллионов туристов в год.' },
-    { emoji: '🏛️', text: 'В Греции больше археологических музеев, чем в любой другой стране.' },
-    { emoji: '🎌', text: 'Япония состоит из более чем 6 800 островов.' },
-    { emoji: '🦁', text: 'Африка — единственный континент, который простирается от северной до южной умеренной зоны.' },
+    { emoji: '🌍', text: 'Russia is the largest country in the world — it spans 11 time zones.' },
+    { emoji: '🏝️', text: 'Indonesia has over 17,000 islands, making it the world\'s largest archipelago.' },
+    { emoji: '🗺️', text: 'Vatican City is the smallest country in the world at just 0.44 km².' },
+    { emoji: '🌊', text: 'Canada has the most lakes of any country — over 60% of the world\'s total.' },
+    { emoji: '🏔️', text: 'Nepal is home to 8 of the world\'s 10 highest mountain peaks.' },
+    { emoji: '🌵', text: 'The Sahara Desert in Africa is roughly the same size as the United States.' },
+    { emoji: '🐧', text: 'Antarctica is the only continent with no permanent human residents.' },
+    { emoji: '🌐', text: 'There are 195 countries in the world recognised by the United Nations.' },
+    { emoji: '🏙️', text: 'Tokyo is the most populous metropolitan area on Earth, with over 37 million people.' },
+    { emoji: '🌿', text: 'Brazil contains about 60% of the Amazon rainforest, the world\'s largest tropical forest.' },
+    { emoji: '💧', text: 'The Nile River in Africa was historically considered the world\'s longest river at 6,650 km.' },
+    { emoji: '🧭', text: 'France is the most visited country in the world, attracting nearly 90 million tourists per year.' },
+    { emoji: '🏛️', text: 'Greece has more archaeological museums than any other country in the world.' },
+    { emoji: '🎌', text: 'Japan has over 6,800 islands and is one of the world\'s most mountainous countries.' },
+    { emoji: '🦁', text: 'Africa is the only continent that stretches from the northern to the southern temperate zones.' },
 ]
 
 function CountryFacts() {
