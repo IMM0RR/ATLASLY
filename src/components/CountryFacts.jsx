@@ -42,7 +42,7 @@ function CountryFacts() {
 
     return (
         <div className="facts-block">
-            <div className="facts-label">знаете ли вы?</div>
+            <div className="facts-label">did you know?</div>
             <div className={`facts-content ${visible ? 'facts-in' : 'facts-out'}`}>
                 <span className="facts-emoji">{fact.emoji}</span>
                 <p className="facts-text">{fact.text}</p>
