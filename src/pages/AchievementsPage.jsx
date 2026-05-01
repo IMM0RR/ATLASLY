@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import LevelBanner from '../components/LevelBanner'
-import AchievementCard from '../components/AchievementCard'
-import '../styles/_achievements.scss'
+import LevelBanner from '../components/achievements/LevelBanner.jsx'
+import AchievementCard from '../components/achievements/AchievementCard.jsx'
+import '../styles/achievements/_achievements.scss'
 import {
     ACHIEVEMENTS,
     getClaimedAchievements,

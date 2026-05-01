@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/_modeswitch.scss'
+import '../../styles/map/_modeswitch.scss'
 
 function ModeSwitch({ mode, onModeChange }) {
   return (

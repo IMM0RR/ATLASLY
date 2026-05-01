@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import '../styles/_profile.scss'
-import CountryFacts from '../components/CountryFacts'
+import '../styles/profile/_profile.scss'
+import CountryFacts from '../components/profile/CountryFacts.jsx'
 import { getSelectedCountries, getCountryNames, getRatings, setRating } from '../utils/cookieStorage'
 
 // Цвет заполненной звезды зависит от оценки — чем выше, тем ярче

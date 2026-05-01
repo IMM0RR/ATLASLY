@@ -1,6 +1,6 @@
 // src/components/CountryFacts.jsx
 import React, { useState, useEffect, useRef } from 'react'
-import '../styles/_facts.scss'
+import '../../styles/profile/_facts.scss'
 
 const FACTS = [
     { emoji: '🌍', text: 'Russia is the largest country in the world — it spans 11 time zones.' },

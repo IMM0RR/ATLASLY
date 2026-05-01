@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import '../styles/_introtour.scss'
+import '../styles/intro/_introtour.scss'
 
 const STORAGE_KEY = 'atlasly_intro_seen'
 

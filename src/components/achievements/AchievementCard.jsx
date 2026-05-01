@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/_achievementcard.scss'
+import '../../styles/achievements/_achievementcard.scss'
 
 const TIER_LABELS = {
     common:    { label: 'Common',    color: '#7ab3d0' },

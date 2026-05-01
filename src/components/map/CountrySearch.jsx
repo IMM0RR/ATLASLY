@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import '../styles/_search.scss'
+import '../../styles/map/_search.scss'
 
 function CountrySearch({ svgRef, mode, selectedCountries, onToggleCountry, svgLoaded }) {
   const [query, setQuery] = useState('')

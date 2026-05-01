@@ -1,49 +1,53 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react'
-import Navbar from '../components/Navbar'
-import ModeSwitch from '../components/ModeSwitch'
-import CountrySearch from '../components/CountrySearch'
-import Tooltip from '../components/Tooltip'
+import Navbar from '../components/shared/Navbar'
+import ModeSwitch from '../components/map/ModeSwitch'
+import CountrySearch from '../components/map/CountrySearch'
+import Tooltip from '../components/shared/Tooltip'
 import ProfilePage from './ProfilePage'
 import AchievementsPage from './AchievementsPage'
-import '../styles/_map.scss'
 import PremiumPage from './PremiumPage'
 import IntroTour from '../components/IntroTour'
-import {
-    getSelectedCountries,
-    saveCountry,
-    removeCountry,
-} from '../utils/cookieStorage'
-
+import { useMapZoom } from '../hooks/map/useMapZoom'
+import { useCountrySelect } from '../hooks/map/useCountrySelect'
+import { useNotification } from '../hooks/shared/useNotification'
+import '../styles/map/_map.scss'
+import { getSelectedCountries } from '../utils/cookieStorage'
 import worldSvgUrl from '../assets/world.svg?url'
 
 const TOTAL_COUNTRIES = 195
-const MIN_SCALE = 1
-const MAX_SCALE = 6
 
 function HomePage() {
     const [mode, setMode] = useState('been')
-    const [selectedCountries, setSelectedCountries] = useState(() =>
-        getSelectedCountries('been')
-    )
-    const [tooltip, setTooltip] = useState({ text: '', x: 0, y: 0, visible: false })
     const [svgLoaded, setSvgLoaded] = useState(false)
     const [page, setPage] = useState('map')
-
-    const [scale, setScale] = useState(1)
-    const [translate, setTranslate] = useState({ x: 0, y: 0 })
-    const isPanning = useRef(false)
-    const panStart = useRef({ x: 0, y: 0 })
-    const translateRef = useRef({ x: 0, y: 0 })
-    const scaleRef = useRef(1)
-    const didPan = useRef(false)
-
-    const [notification, setNotification] = useState(null)
-    const notifTimer = useRef(null)
+    const [tooltip, setTooltip] = useState({ text: '', x: 0, y: 0, visible: false })
 
     const svgContainerRef = useRef(null)
     const mapWrapperRef = useRef(null)
     const svgLoadedRef = useRef(false)
+    const didPan = useRef(false)
 
+    const { notification, showNotification } = useNotification()
+
+    const { selectedCountries, handleToggleCountry, loadMode } = useCountrySelect(
+        mode,
+        (code, name, adding) => {
+            if (mode === 'been') showNotification(name || code, adding)
+        }
+    )
+
+    const {
+        scale, translate,
+        scaleRef, translateRef,
+        applyTransform, resetTransform,
+        MIN_SCALE, MAX_SCALE,
+    } = useMapZoom(mapWrapperRef)
+
+    // Pan state
+    const isPanning = useRef(false)
+    const panStart = useRef({ x: 0, y: 0 })
+
+    // Load SVG
     useEffect(() => {
         if (svgLoadedRef.current) return
         fetch(worldSvgUrl)
@@ -77,39 +81,12 @@ function HomePage() {
         applySelections(selectedCountries)
     }, [selectedCountries, applySelections])
 
-    const applyTransform = useCallback((newScale, newTx, newTy) => {
-        scaleRef.current = newScale
-        translateRef.current = { x: newTx, y: newTy }
-        setScale(newScale)
-        setTranslate({ x: newTx, y: newTy })
-    }, [])
+    const handleModeChange = (newMode) => {
+        setMode(newMode)
+        loadMode(newMode)
+    }
 
-    const resetTransform = useCallback(() => {
-        applyTransform(1, 0, 0)
-    }, [applyTransform])
-
-    useEffect(() => {
-        const wrapper = mapWrapperRef.current
-        if (!wrapper) return
-        const onWheel = (e) => {
-            e.preventDefault()
-            const delta = e.deltaY < 0 ? 1.12 : 1 / 1.12
-            const rect = wrapper.getBoundingClientRect()
-            const mouseX = e.clientX - rect.left
-            const mouseY = e.clientY - rect.top
-            const currentScale = scaleRef.current
-            const { x: tx, y: ty } = translateRef.current
-            let newScale = currentScale * delta
-            if (newScale < MIN_SCALE) { resetTransform(); return }
-            if (newScale > MAX_SCALE) newScale = MAX_SCALE
-            const newTx = mouseX - (mouseX - tx) * (newScale / currentScale)
-            const newTy = mouseY - (mouseY - ty) * (newScale / currentScale)
-            applyTransform(newScale, newTx, newTy)
-        }
-        wrapper.addEventListener('wheel', onWheel, { passive: false })
-        return () => wrapper.removeEventListener('wheel', onWheel)
-    }, [applyTransform, resetTransform])
-
+    // Pan handlers
     const handleMouseDown = (e) => {
         if (scaleRef.current <= MIN_SCALE) return
         if (e.button !== 0) return
@@ -127,7 +104,7 @@ function HomePage() {
             const newTx = e.clientX - panStart.current.x
             const newTy = e.clientY - panStart.current.y
             translateRef.current = { x: newTx, y: newTy }
-            setTranslate({ x: newTx, y: newTy })
+            applyTransform(scaleRef.current, newTx, newTy)
             return
         }
         const path = e.target.closest('path')
@@ -135,33 +112,6 @@ function HomePage() {
     }
 
     const handleMouseUp = () => { isPanning.current = false }
-
-    const showNotification = (name, adding) => {
-        if (notifTimer.current) clearTimeout(notifTimer.current)
-        setNotification({ name, adding })
-        notifTimer.current = setTimeout(() => setNotification(null), 2200)
-    }
-
-    const handleModeChange = (newMode) => {
-        setMode(newMode)
-        setSelectedCountries(new Set(getSelectedCountries(newMode)))
-    }
-
-    const handleToggleCountry = useCallback((code, name) => {
-        setSelectedCountries(prev => {
-            const next = new Set(prev)
-            if (next.has(code)) {
-                next.delete(code)
-                removeCountry(mode, code)
-                if (mode === 'been') showNotification(name || code, false)
-            } else {
-                next.add(code)
-                saveCountry(mode, code, name)
-                if (mode === 'been') showNotification(name || code, true)
-            }
-            return next
-        })
-    }, [mode])
 
     const handleSvgClick = (e) => {
         if (didPan.current) return
@@ -192,8 +142,8 @@ function HomePage() {
 
     return (
         <div className={`theme-${mode}`} style={{ height: '100%', width: '100%', position: 'relative', overflow: 'hidden' }}>
-            <IntroTour onNavigate={setPage} />
             <Navbar page={page} onNavigate={setPage} mode={mode} />
+            <IntroTour />
 
             {page === 'map' && <ModeSwitch mode={mode} onModeChange={handleModeChange} />}
 
@@ -243,11 +193,9 @@ function HomePage() {
             {page === 'profile' && (
                 <ProfilePage beenCount={beenCount} wishCount={wishCount} percent={percent} total={TOTAL_COUNTRIES} mode={mode} />
             )}
-
             {page === 'achievements' && (
                 <AchievementsPage beenCount={beenCount} mode={mode} />
             )}
-
             {page === 'premium' && (
                 <PremiumPage mode={mode} onNavigate={setPage} />
             )}

@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, forwardRef } from 'react'
-import '../styles/_map.scss'
+import '../../styles/map/_map.scss'
 
 const WorldMap = forwardRef(function WorldMap(
   { selectedCountries, onToggleCountry, onHover, onHoverEnd, onMouseMove },

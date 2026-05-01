@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/_tooltip.scss'
+import '../../styles/shared/_tooltip.scss'
 
 function Tooltip({ text, x, y, visible }) {
   return (

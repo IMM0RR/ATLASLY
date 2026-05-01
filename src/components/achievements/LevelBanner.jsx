@@ -1,5 +1,5 @@
 import React from 'react'
-import '../styles/_levelbanner.scss'
+import '../../styles/achievements/_levelbanner.scss'
 
 function LevelBanner({ levelInfo }) {
     const { current, next, progress, xp } = levelInfo

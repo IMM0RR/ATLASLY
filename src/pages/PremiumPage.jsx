@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import '../styles/_premium.scss'
+import '../styles/premium/_premium.scss'
 
 const FEATURES_FREE = [
     'Interactive world map',
